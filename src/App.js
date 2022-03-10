@@ -1,11 +1,16 @@
 import "./App.css";
+import CovidMap from "./component/CovidMap";
+import {RecoilRoot} from 'recoil'
+import Area from './component/Area'
 
-import CovidMap from "./CovidMap";
 function App() {
   return (
-    <div className="App">
-      <CovidMap />
-    </div>
+    <RecoilRoot>
+      <div className="App">
+        <Area />
+        <CovidMap />
+      </div>
+    </RecoilRoot>
   );
 }
 

@@ -17,14 +17,16 @@ import {
   Daegu,
   Gwangju,
   Jeju,
-} from "./area/all_area";
+} from "../area/all_area";
 import axios from "axios";
+import {useRecoilState} from 'recoil'
+import areaState from '../atom/areaState'
 
 const levelColor = ['#fff5f5', '#ffc9c9', '#ff8787', '#fa5252', '#c92a2a']
 
 function CovidMap() {
   const [covidData, setCovidData] = useState(null)
-  const [selectedArea, setSelectedArea] = useState('')
+  const [selectedArea, setSelectedArea] = useRecoilState(areaState)
 
   useEffect(() => {
     axios.get('https://elice-covid.herokuapp.com/covidData')
@@ -38,17 +40,6 @@ function CovidMap() {
     }
   return (
     <>
-      <div>
-        {selectedArea === null ? (
-        <p>선택 지역 없음</p>
-        ) : (
-        <>
-          <p>선택한 지역 : {selectedArea.name}</p>
-          <p>거리두기 단계 : {selectedArea.level}</p>
-          <p>확진자 수 : {selectedArea.num}</p>
-        </>
-        )}
-      </div>
       <svg width="700px" height="1000px" viewBox="0 0 800 1200">
         <Seoul
         fill={levelColor[covidData['서울'].level - 1]} onClick={(evt) => setSelectedArea({
@@ -159,7 +150,7 @@ function CovidMap() {
           name: evt.target.id,
         })}
         />
-        
+
         <Jeju
         fill={levelColor[covidData['제주'].level - 1]} onClick={(evt) => setSelectedArea({
           ...covidData[evt.target.id],
